@@ -29,20 +29,71 @@ public class ShadowDance extends AbstractGame  {
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
     }
 
-    ArrayList<String> stepsArray = new ArrayList<String>();
+    ArrayList<Note> allNotesArray = new ArrayList<Note>();
+    ArrayList<Lane> lanesArray = new ArrayList<Lane>();
 
-    /**
-     * Method used to read file and create objects (you can change
-     * this method as you wish).
-     */
-    private void readCSV(String csvFile) {
-        try(BufferedReader br =
-                new BufferedReader(new FileReader("steps.csv"))) {
+    // readCSV() method to parse through CSV file
+    private void readCSV() {
+        try(BufferedReader br = new BufferedReader(new FileReader("res/level1-60.csv"))) {
+            String csvLine;
+            while((csvLine = br.readLine()) != null) {
+                String fields[] = csvLine.split(",");
+                // Read in the lane coordinates
+                if(fields[0].equals("Lane") == true) {
+                    //System.out.println("LANE!!!!!!");
+                    String laneType = fields[1];
+                    int laneXCoord = Integer.parseInt(fields[2]);
+                    // Create the lane to add into lanes ArrayList
+                    Lane currLane = new Lane(laneType, laneXCoord);
+                   // System.out.println(laneType);
+                    lanesArray.add(currLane);
+                }
+                // Else it'll be for the note(s)
+                //System.out.println(csvLine);
+                int noteFrameNumber = Integer.parseInt(fields[2]);
+                createNote(fields[0], fields[1], noteFrameNumber, lanesArray);
 
+            }
+            /* System.out.println(lanesArray.size());
+            System.out.println(allNotesArray.size());
+            for(int i = 0; i < allNotesArray.size(); i++) {
+                System.out.format("ANA: laneType: %s, frameNumber: %d\n",
+                        allNotesArray.get(i).getNoteLane(), allNotesArray.get(i).getFrameNumber());
+            } */
         }
         catch(IOException e) {
             e.printStackTrace();
         }
+    }
+    // Function that creates notes and adds into allNotesArray
+   private void createNote(String laneType, String noteType, int frameNumber, ArrayList<Lane> laneArrList) {
+        int startX;
+        Note currNote;
+        if(noteType.equals("Normal") == true) {
+            if(laneType.equals("Left") == true) {
+                startX = laneArrList.get(0).getLaneX();
+                currNote = new NormalNote(laneType, startX, frameNumber);
+                allNotesArray.add(currNote);
+            }
+            if(laneType.equals("Right") == true) {
+                startX = laneArrList.get(1).getLaneX();
+                currNote = new NormalNote(laneType, startX, frameNumber);
+                allNotesArray.add(currNote);
+            }
+            if(laneType.equals("Up") == true) {
+                startX = laneArrList.get(2).getLaneX();
+                currNote = new NormalNote(laneType, startX, frameNumber);
+                allNotesArray.add(currNote);
+            }
+            if(laneType.equals("Down") == true) {
+                startX = laneArrList.get(3).getLaneX();
+                currNote = new NormalNote(laneType, startX, frameNumber);
+                allNotesArray.add(currNote);
+            }
+        }
+        // It's a hold note
+       if(noteType.equals("Hold") == true) {
+       }
     }
 
     /**
@@ -52,6 +103,7 @@ public class ShadowDance extends AbstractGame  {
         //Font mainFont = new Font("res/FSO8BITR.TTF", 24);
         //mainFont.drawString("PRES SPACE TO START", 0, 0);
         ShadowDance game = new ShadowDance();
+        game.readCSV();
         game.run();
     }
 
@@ -63,6 +115,7 @@ public class ShadowDance extends AbstractGame  {
     protected void update(Input input) {
         BACKGROUND_IMAGE.draw(Window.getWidth()/2.0, Window.getHeight()/2.0);
         //defaultFont.drawString(GAME_TITLE, (Window.getWidth()/2.0) - (defaultFont.getWidth(GAME_TITLE)/2.0) , 250);
+        //readCSV();
         if(startedGame == false) {
             // Draw the starting message/window of the game
             defaultFont.drawString(GAME_TITLE, GAME_TITLE_X, GAME_TITLE_Y);
@@ -76,10 +129,6 @@ public class ShadowDance extends AbstractGame  {
         }
         // Game has started!
         // code
-
-        // Game has been paused
-        if(input.wasPressed(Keys.TAB)) {
-        }
 
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();

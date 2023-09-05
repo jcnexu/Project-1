@@ -1,10 +1,15 @@
-public class NormalNote {
-    // The constant y-coordinate values of the notes
-    private final static double IMAGE_NOTE_Y = 657;
-    private final static double  START_NOTE_Y = 100;
-    // Speed of note
-    private final static int NOTE_SPEED = 2;
-    private String noteType;
-    private double startNoteX;
-    private double startNoteY = START_NOTE_Y;
+import bagel.*;
+public class NormalNote extends Note {
+    // The y-coordinate for the stationary notes
+    private final static int IMAGE_NORMAL_Y = 657;
+    // Starting y-coordinate of all normal notes
+    private final static int  START_NORMAL_Y = 100;
+
+    // Constructor
+    public NormalNote(String noteLane, int startX, int frameNumber) {
+        this.noteLane = noteLane;
+        this.startX = startX;
+        this.startY = START_NORMAL_Y;
+        this.frameNumber = frameNumber;
+    }
 }
