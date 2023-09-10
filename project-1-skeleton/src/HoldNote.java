@@ -4,9 +4,8 @@ public class HoldNote extends Note {
     private final static int START_HOLD_Y = 24;
 
     // Constructor
-    public HoldNote(String noteLane, int startX) {
-        this.noteLane = noteLane;
-        this.startX = startX;
+    public HoldNote(String noteLane, int startX, int frameNumber, String noteClass) {
+        super(noteLane, startX, frameNumber, noteClass);
         this.startY = START_HOLD_Y;
     }
 }

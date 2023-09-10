@@ -25,4 +25,18 @@ public class Lane {
     public int getLaneY() {
         return centreY;
     }
+
+    public void laneDraw(ArrayList<Note> noteArray, int frameCounter) {
+        int i;
+        for(i = 0; i < noteArray.size(); i++) {
+            if((this.laneType.equals(noteArray.get(i).getNoteLane()) == true) &&
+            noteArray.get(i).getFrameNumber() <= frameCounter) {
+                noteArray.get(i).drawNote();
+            }
+            else {
+                // move onto to next note
+            }
+        }
+    }
+
 }

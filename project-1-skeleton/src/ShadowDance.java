@@ -20,11 +20,18 @@ public class ShadowDance extends AbstractGame  {
     private final Font defaultFont = new Font("res/FSO8BITR.TTF", 64);
     // Font and size for starting message
     private final Font startFont = new Font("res/FSO8BITR.TTF", 24);
+    private final Font messageFont = new Font("res/FSO8BITR.TTF", 40);
     private static final String GAME_START_MESS1 = "PRESS SPACE TO START";
     private static final String GAME_START_MESS2 = "USE ARROW KEYS TO PLAY";
     // Boolean variable to help determine if game has started or not
     private boolean startedGame = false;
-
+    private final Image LEFT_LANE = new Image("res/laneLeft.png");
+    private final Image RIGHT_LANE = new Image("res/laneRight.png");
+    private final Image DOWN_LANE = new Image("res/laneDown.png");
+    private final Image UP_LANE = new Image("res/laneUp.png");
+   // To keep count of how many frames have been passed/drawn
+    private int frameCounter;
+    private final int messageDuration = 30;
     public ShadowDance(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
     }
@@ -34,7 +41,7 @@ public class ShadowDance extends AbstractGame  {
 
     // readCSV() method to parse through CSV file
     private void readCSV() {
-        try(BufferedReader br = new BufferedReader(new FileReader("res/level1-60.csv"))) {
+        try(BufferedReader br = new BufferedReader(new FileReader("res/level1.csv"))) {
             String csvLine;
             while((csvLine = br.readLine()) != null) {
                 String fields[] = csvLine.split(",");
@@ -49,17 +56,10 @@ public class ShadowDance extends AbstractGame  {
                     lanesArray.add(currLane);
                 }
                 // Else it'll be for the note(s)
-                //System.out.println(csvLine);
                 int noteFrameNumber = Integer.parseInt(fields[2]);
                 createNote(fields[0], fields[1], noteFrameNumber, lanesArray);
 
             }
-            /* System.out.println(lanesArray.size());
-            System.out.println(allNotesArray.size());
-            for(int i = 0; i < allNotesArray.size(); i++) {
-                System.out.format("ANA: laneType: %s, frameNumber: %d\n",
-                        allNotesArray.get(i).getNoteLane(), allNotesArray.get(i).getFrameNumber());
-            } */
         }
         catch(IOException e) {
             e.printStackTrace();
@@ -69,25 +69,26 @@ public class ShadowDance extends AbstractGame  {
    private void createNote(String laneType, String noteType, int frameNumber, ArrayList<Lane> laneArrList) {
         int startX;
         Note currNote;
+        // It's a normal note
         if(noteType.equals("Normal") == true) {
             if(laneType.equals("Left") == true) {
                 startX = laneArrList.get(0).getLaneX();
-                currNote = new NormalNote(laneType, startX, frameNumber);
+                currNote = new NormalNote(laneType, startX, frameNumber, noteType);
                 allNotesArray.add(currNote);
             }
             if(laneType.equals("Right") == true) {
                 startX = laneArrList.get(1).getLaneX();
-                currNote = new NormalNote(laneType, startX, frameNumber);
+                currNote = new NormalNote(laneType, startX, frameNumber, noteType);
                 allNotesArray.add(currNote);
             }
             if(laneType.equals("Up") == true) {
                 startX = laneArrList.get(2).getLaneX();
-                currNote = new NormalNote(laneType, startX, frameNumber);
+                currNote = new NormalNote(laneType, startX, frameNumber, noteType);
                 allNotesArray.add(currNote);
             }
             if(laneType.equals("Down") == true) {
                 startX = laneArrList.get(3).getLaneX();
-                currNote = new NormalNote(laneType, startX, frameNumber);
+                currNote = new NormalNote(laneType, startX, frameNumber, noteType);
                 allNotesArray.add(currNote);
             }
         }
@@ -100,8 +101,6 @@ public class ShadowDance extends AbstractGame  {
      * The entry point for the program.
      */
     public static void main(String[] args) {
-        //Font mainFont = new Font("res/FSO8BITR.TTF", 24);
-        //mainFont.drawString("PRES SPACE TO START", 0, 0);
         ShadowDance game = new ShadowDance();
         game.readCSV();
         game.run();
@@ -115,7 +114,6 @@ public class ShadowDance extends AbstractGame  {
     protected void update(Input input) {
         BACKGROUND_IMAGE.draw(Window.getWidth()/2.0, Window.getHeight()/2.0);
         //defaultFont.drawString(GAME_TITLE, (Window.getWidth()/2.0) - (defaultFont.getWidth(GAME_TITLE)/2.0) , 250);
-        //readCSV();
         if(startedGame == false) {
             // Draw the starting message/window of the game
             defaultFont.drawString(GAME_TITLE, GAME_TITLE_X, GAME_TITLE_Y);
@@ -123,15 +121,39 @@ public class ShadowDance extends AbstractGame  {
             startFont.drawString(GAME_START_MESS1, GAME_TITLE_X + 100, GAME_TITLE_Y + 190);
             startFont.drawString(GAME_START_MESS2, GAME_TITLE_X + 100, GAME_TITLE_Y + 220);
 
+            // Sets it to 0
+            frameCounter = -1;
+
             if(input.wasPressed(Keys.SPACE)) {
                 startedGame = true;
             }
         }
         // Game has started!
-        // code
+        if(startedGame == true) {
+            // Draw the lanes
+            Lane leftLane = new Lane(lanesArray.get(0).getLaneType(), lanesArray.get(0).getLaneX());
+            Lane upLane = new Lane(lanesArray.get(2).getLaneType(), lanesArray.get(2).getLaneX());
+            Lane downLane = new Lane(lanesArray.get(3).getLaneType(), lanesArray.get(3).getLaneX());
+            Lane rightLane = new Lane(lanesArray.get(1).getLaneType(), lanesArray.get(1).getLaneX());
+
+            LEFT_LANE.draw(leftLane.getLaneX(), leftLane.getLaneY());
+            UP_LANE.draw(upLane.getLaneX(), upLane.getLaneY());
+            DOWN_LANE.draw(downLane.getLaneX(), downLane.getLaneY());
+            RIGHT_LANE.draw(rightLane.getLaneX(), rightLane.getLaneY());
+
+            // Start putting notes into game
+            leftLane.laneDraw(allNotesArray, frameCounter);
+            upLane.laneDraw(allNotesArray, frameCounter);
+            downLane.laneDraw(allNotesArray, frameCounter);
+            rightLane.laneDraw(allNotesArray, frameCounter);
+
+        }
 
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
         }
+        // Update frameCounter each time update() is called
+        frameCounter++;
     }
+
 }
