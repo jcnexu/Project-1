@@ -5,9 +5,10 @@ public class Lane {
     private final static int CENTRE_Y = 384;
     private final static int MAX_NORMAL_NOTES = 100;
     private final static int MAX_HOLD_NOTES = 20;
-    private String laneType;
-    private int centreX;
-    private int centreY = CENTRE_Y;
+    private final String laneType;
+    private final int centreX;
+    private final int centreY;
+    private boolean isScored;
 
     public Lane(String type, int centreX) {
         this.laneType = type;
@@ -26,15 +27,12 @@ public class Lane {
         return centreY;
     }
 
+
     public void laneDraw(ArrayList<Note> noteArray, int frameCounter) {
         int i;
         for(i = 0; i < noteArray.size(); i++) {
-            if((this.laneType.equals(noteArray.get(i).getNoteLane()) == true) &&
-            noteArray.get(i).getFrameNumber() <= frameCounter) {
+            if(noteArray.get(i).getFrameNumber() <= frameCounter) {
                 noteArray.get(i).drawNote();
-            }
-            else {
-                // move onto to next note
             }
         }
     }
