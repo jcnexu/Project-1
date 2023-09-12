@@ -46,7 +46,7 @@ public class Note {
         this.isScored = state;
     }
 
-    public void drawNote(Input input, Score currScore) {
+    protected void drawNote(Input input, Score currScore) {
     }
 
     public int getNoteDistance() {

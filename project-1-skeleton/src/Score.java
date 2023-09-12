@@ -15,6 +15,7 @@ public class Score {
     private final String GOOD_MESSAGE = "GOOD";
     private final String BAD_MESSAGE = "BAD";
     private final String MISS_MESSAGE = "MISS";
+    private final int MESSAGE_DURATION = 30;
     protected final static int IMAGE_NORMAL_Y = 657;
     private int gameScore;
 
@@ -26,10 +27,6 @@ public class Score {
         this.gameScore = n;
     }
 
-    public Font getMessageFont() {
-        return messageFont;
-    }
-
     public Font getScoreFont() {
         return scoreFont;
     }
@@ -38,7 +35,7 @@ public class Score {
         return gameScore;
     }
 
-   public void leftNormalNoteScoring(NormalNote givenNote, Input input) {
+   protected void leftNormalNoteScoring(NormalNote givenNote, Input input) {
        int currScoreNo = this.getTheScore();
        if (input.wasPressed(Keys.LEFT)) {
            if (givenNote.getNoteDistance() <= PERFECT_DISTANCE) {
@@ -77,7 +74,7 @@ public class Score {
        }
    }
 
-    public void upNormalNoteScoring(NormalNote givenNote, Input input) {
+    protected void upNormalNoteScoring(NormalNote givenNote, Input input) {
         int currScoreNo = this.getTheScore();
         if (input.wasPressed(Keys.UP)) {
             if (givenNote.getNoteDistance() <= PERFECT_DISTANCE) {
@@ -116,7 +113,7 @@ public class Score {
         }
     }
 
-    public void downNormalNoteScoring(NormalNote givenNote, Input input) {
+    protected void downNormalNoteScoring(NormalNote givenNote, Input input) {
         int currScoreNo = this.getTheScore();
         if (input.wasPressed(Keys.DOWN)) {
             if (givenNote.getNoteDistance() <= PERFECT_DISTANCE) {
@@ -155,7 +152,7 @@ public class Score {
         }
     }
 
-    public void rightNormalNoteScoring(NormalNote givenNote, Input input) {
+    protected void rightNormalNoteScoring(NormalNote givenNote, Input input) {
         int currScoreNo = this.getTheScore();
         if (input.wasPressed(Keys.RIGHT)) {
             if (givenNote.getNoteDistance() <= PERFECT_DISTANCE) {
@@ -193,5 +190,34 @@ public class Score {
             }
         }
     }
+
+    /* An attempt to try draw the note scoring messages properly, but was not able to
+       correctly draw it for 30 frames.
+    private void drawNormalNoteMessage(NormalNote givenNote, int frameNumber, String messageType) {
+        int initialFrameNumber = frameNumber;
+        if (frameNumber > (initialFrameNumber + MESSAGE_DURATION)) {
+            // stop drawing the message
+        }
+        else if(frameNumber <= (initialFrameNumber + MESSAGE_DURATION)) {
+            if(messageType.equals("Perfect")) {
+                messageFont.drawString(PERFECT_MESSAGE, (Window.getWidth() / 2.0) -
+                        (messageFont.getWidth(PERFECT_MESSAGE) / 2.0), 250);
+            }
+            if(messageType.equals("Good")) {
+                messageFont.drawString(GOOD_MESSAGE, (Window.getWidth() / 2.0) -
+                        (messageFont.getWidth(GOOD_MESSAGE) / 2.0), 250);
+            }
+            if(messageType.equals("Bad")) {
+                messageFont.drawString(BAD_MESSAGE, (Window.getWidth() / 2.0) -
+                        (messageFont.getWidth(BAD_MESSAGE) / 2.0), 250);
+            }
+            if(messageType.equals("Miss")) {
+                messageFont.drawString(MISS_MESSAGE, (Window.getWidth() / 2.0) -
+                        (messageFont.getWidth(MISS_MESSAGE) / 2.0), 250);
+            }
+        }
+    }
+
+     */
 
 }

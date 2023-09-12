@@ -29,7 +29,6 @@ public class ShadowDance extends AbstractGame  {
     private final Image UP_LANE = new Image("res/laneUp.png");
    // To keep count of how many frames have been passed/drawn
     private int frameCounter;
-    private final int messageDuration = 30;
     private Score currScore = new Score(0);
     public ShadowDance(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
@@ -173,13 +172,14 @@ public class ShadowDance extends AbstractGame  {
             // Drawing and keeping track of the current game's score
             currScore.getScoreFont().drawString("SCORE " + currScore.getTheScore(), 35, 35);
 
+            // Update frameCounter each time update() is called
+            frameCounter++;
         }
 
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
         }
-        // Update frameCounter each time update() is called
-        frameCounter++;
     }
+
 
 }

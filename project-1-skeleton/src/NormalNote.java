@@ -16,12 +16,10 @@ public class NormalNote extends Note {
     /* Own drawNote() to override Note's drawNote() due to normal note images
        belonging only to subclass NormalNote.
      */
-    public void drawNote(Input input, Score currScore) {
+    protected void drawNote(Input input, Score currScore) {
         int noteX = this.getStartX();
         int noteY = this.getStartY();
 
-        // perhaps put in func that sees if dist & ispressed
-        // is appropriate
         if(!this.getIsScored()) {
             if (this.getNoteLane().equals("Left")) {
                 currScore.leftNormalNoteScoring(this, input);

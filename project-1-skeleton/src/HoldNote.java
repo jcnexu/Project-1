@@ -13,12 +13,11 @@ public class HoldNote extends Note {
         this.startY = START_HOLD_Y;
     }
 
-    public void drawNote() {
+    protected void drawNote(Input input, Score currScore) {
         int noteX = this.getStartX();
         int noteY = this.getStartY();
 
-        // perhaps put in func that sees if dist & ispressed
-        // is appropriate
+
         if(!this.getIsScored()) {
             if (this.getNoteLane().equals("Left")) {
                 HOLD_NOTE_LEFT.draw(noteX, noteY);

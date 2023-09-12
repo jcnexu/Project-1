@@ -3,12 +3,9 @@ import java.util.ArrayList;
 public class Lane {
     // Constant for the y-coordinate of all lanes
     private final static int CENTRE_Y = 384;
-    private final static int MAX_NORMAL_NOTES = 100;
-    private final static int MAX_HOLD_NOTES = 20;
     private final String laneType;
     private final int centreX;
     private final int centreY;
-    private boolean isScored;
 
     public Lane(String type, int centreX) {
         this.laneType = type;
