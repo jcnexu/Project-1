@@ -28,11 +28,11 @@ public class Lane {
     }
 
 
-    public void laneDraw(ArrayList<Note> noteArray, int frameCounter) {
+    public void laneDraw(ArrayList<Note> noteArray, int frameCounter, Input input, Score currScore) {
         int i;
         for(i = 0; i < noteArray.size(); i++) {
             if(noteArray.get(i).getFrameNumber() <= frameCounter) {
-                noteArray.get(i).drawNote();
+                noteArray.get(i).drawNote(input, currScore);
             }
         }
     }

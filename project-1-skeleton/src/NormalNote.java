@@ -16,7 +16,7 @@ public class NormalNote extends Note {
     /* Own drawNote() to override Note's drawNote() due to normal note images
        belonging only to subclass NormalNote.
      */
-    public void drawNote() {
+    public void drawNote(Input input, Score currScore) {
         int noteX = this.getStartX();
         int noteY = this.getStartY();
 
@@ -24,26 +24,28 @@ public class NormalNote extends Note {
         // is appropriate
         if(!this.getIsScored()) {
             if (this.getNoteLane().equals("Left")) {
+                currScore.leftNormalNoteScoring(this, input);
                 NOTE_LEFT.draw(noteX, noteY);
                 this.setNoteY(noteY + NOTE_SPEED);
+
             }
             if (this.getNoteLane().equals("Up")) {
+                currScore.upNormalNoteScoring(this, input);
                 NOTE_UP.draw(noteX, noteY);
                 this.setNoteY(noteY + NOTE_SPEED);
             }
             if (this.getNoteLane().equals("Down")) {
+                currScore.downNormalNoteScoring(this, input);
                 NOTE_DOWN.draw(noteX, noteY);
                 this.setNoteY(noteY + NOTE_SPEED);
             }
             if (this.getNoteLane().equals("Right")) {
+                currScore.rightNormalNoteScoring(this, input);
                 NOTE_RIGHT.draw(noteX, noteY);
                 this.setNoteY(noteY + NOTE_SPEED);
             }
         }
     }
 
-    public void noteScoring() {
-
-    }
 
 }

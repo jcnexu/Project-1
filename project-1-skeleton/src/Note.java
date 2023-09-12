@@ -13,7 +13,6 @@ public class Note {
     protected int startY;
     private final int frameNumber;
     private boolean isScored;
-    private final Font messageFont = new Font("res/FSO8BITR.TTF", 40);
 
     public String getNoteLane() {
         return noteLane;
@@ -47,18 +46,11 @@ public class Note {
         this.isScored = state;
     }
 
-    public void drawNote() {
+    public void drawNote(Input input, Score currScore) {
     }
 
     public int getNoteDistance() {
         return Math.abs(IMAGE_NORMAL_Y - this.getStartY());
     }
 
-    public void leftNoteScoring(Input input) {
-        if(input.wasPressed(Keys.LEFT) && this.getNoteDistance() <= 15) {
-            this.setIsScored(true);
-            messageFont.drawString("PERFECT",(Window.getWidth()/2.0) - (messageFont.getWidth("PERFECT")/2.0) , 250);
-
-        }
-    }
 }
