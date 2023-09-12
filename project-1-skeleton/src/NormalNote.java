@@ -22,6 +22,7 @@ public class NormalNote extends Note {
 
         if(!this.getIsScored()) {
             if (this.getNoteLane().equals("Left")) {
+                // Simultaneously check if the note has been scored
                 currScore.leftNormalNoteScoring(this, input);
                 NOTE_LEFT.draw(noteX, noteY);
                 this.setNoteY(noteY + NOTE_SPEED);

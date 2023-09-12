@@ -35,6 +35,7 @@ public class Score {
         return gameScore;
     }
 
+    // The scoring for notes in the 4 different lanes
    protected void leftNormalNoteScoring(NormalNote givenNote, Input input) {
        int currScoreNo = this.getTheScore();
        if (input.wasPressed(Keys.LEFT)) {

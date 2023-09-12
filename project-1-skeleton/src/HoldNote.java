@@ -12,11 +12,12 @@ public class HoldNote extends Note {
         super(noteLane, startX, frameNumber);
         this.startY = START_HOLD_Y;
     }
-
+    /* Own drawNote() to override Note's drawNote() due to hold note images
+       belonging only to subclass HoldNote.
+     */
     protected void drawNote(Input input, Score currScore) {
         int noteX = this.getStartX();
         int noteY = this.getStartY();
-
 
         if(!this.getIsScored()) {
             if (this.getNoteLane().equals("Left")) {
